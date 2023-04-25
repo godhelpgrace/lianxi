@@ -54,7 +54,7 @@ def get_song_name_from_text(text):
     text = ' '.join(text.split())
     # 用空格分割字符串
     text_list = text.split(' ')
-    return text_list[0]
+    return ''.join(text_list[:15])
 
 # 获取文件后缀名
 def get_file_extension(file_name):
@@ -110,7 +110,9 @@ def move_file(old_path, new_path):
                 else:
                     break
                 new_path1 = os.path.join(parent_path, file_name + '_' + str(i) + '.' + extension)
-        os.rename(old_path, new_path1)
+            os.rename(old_path, new_path1)
+    else:
+        os.remove(old_path)
 
 def download_from_url(url):
     # 从浏览器获取图片url及歌曲url
@@ -130,6 +132,7 @@ def download_from_url(url):
     # 创建文件夹
     os.makedirs('Image', exist_ok=True)
     os.makedirs('Song', exist_ok=True)
+    print(song_name + '.jpg')
     # 判断文件是否存在
     if os.path.exists(song_name + '.jpg'):
         os.remove(song_name + '.jpg')
@@ -206,33 +209,52 @@ def remove_duplicate(lis):
 
 if __name__ == '__main__':
 
-    # url = 'https://12180.net/m/kte4L'
-    # download_from_url(url)
-    a = read_file('s.txt', '/api/download/')
-    a = [i.replace('\n','') for i in a]
+    url = 'https://hymn.znapps.xyz/api/share/music?id=62724&pid=101327'
+    download_from_url(url)
 
-    for i in a:
-        b = '/api/download/image?'
-        if b in i:
-            c = i.split(b)[0]
-            d = i.split(b)[1]
-            e = d.split('&')[0]
-            f = d.split('&')[1]
-            for j in range(1, len(a)):
-                if c in a[j] and f in a[j] and i != a[j]:
-                    image_url = i
-                    song_url = a[j]
-                    print('=====================')
-                    print(image_url, song_url)
-                    try:
-                        download_from_txt(image_url, song_url)
-                        print('ok')
-                    except:
-                        print('error')
-
-
-
-
-
+#     a = read_file('s.txt', '/api/download/')
+#     a = [i.replace('\n','') for i in a]
+#     a = remove_duplicate(a)
+#
+#     for i in a:
+#         b = '/api/download/image?'
+#         if b in i:
+#             c = i.split(b)[0]
+#             d = i.split(b)[1]
+#             e = d.split('&')[0]
+#             f = d.split('&')[1]
+#             for j in range(1, len(a)):
+#                 if c in a[j] and f in a[j] and i != a[j]:
+#                     image_url = i
+#                     song_url = a[j]
+#                     print('=====================')
+#                     print(image_url, song_url)
+#                     download_from_txt(image_url, song_url)
+#                     break
+#
+#
+#
+# import pandas as pd
+#
+# df = pd.DataFrame({'x': ['A', 'B', 'C', 'A', 'C'], '2010': [1, 3, 4, 4, 3], '2011': [4, 5, 2, 8, 9]})
+# df = pd.melt(df, id_vars=['x'], var_name='year', value_name='value')
+# df_melt[['year']] = df_melt[['year']].astype(int)
+# # 按行求和
+# df_rowsum = df[['2010', '2011']].apply(lambda x: x.sum(), axis=1)
+# # 按列求和
+# df_colsum = df[['2010', '2011']].apply(lambda x: x.sum(), axis=0)
+# # 单列运算：在Pandas中，DataFrame的一列就是一个Series，可以通过map或者apply函数来对某一列进行操作。
+# df['2010——2'] = df['2010'].map(lambda x: x + 2)
+# # 多列运算：要对DataFrame的多个列同时进行运算，可以使用apply（）函数。
+# df[['2010_2011']] = df.apply(lambda x: x['2010'] + 2*x['2011'], axis=1)
+#
+# # 按year分组求均值
+# df.group_mean1 = df_melt.groupby('year').mean()
+# # 按year和x两列变量分组求均值
+# df.group_mean2 = df_melt.groupby(['year', 'x'],as_index=False).mean()
+# # 按year分组求和
+# df.group_sum = df_melt.groupby('year').sum()
+# # 按year分组求方差
+# df.group_std = df_melt.groupby('year').std()
 
 
